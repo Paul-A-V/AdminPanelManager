@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 
-//testcomment
+//main class
 public class AdminPanelManager extends JFrame implements ActionListener {
     private JButton addVideoButton, updateVideoButton, deleteVideoButton,
                     addMovieButton, updateMovieButton, deleteMovieButton,
