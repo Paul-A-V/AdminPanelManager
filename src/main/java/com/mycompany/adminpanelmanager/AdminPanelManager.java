@@ -10,9 +10,11 @@ public class AdminPanelManager extends JFrame implements ActionListener {
     private JButton addVideoButton, updateVideoButton, deleteVideoButton,
                     addMovieButton, updateMovieButton, deleteMovieButton,
                     addTVSeriesButton, updateTVSeriesButton, deleteTVSeriesButton,
-                    searchVideoButton;
+                    searchVideoButton, searchMovieButton, searchTVSeriesButton;
     private Connection conn;
     private int videoId;
+    private int movieId;
+    private int tvSeriesId;
 
     public AdminPanelManager() {
         super("Admin Panel Manager");
@@ -22,7 +24,7 @@ public class AdminPanelManager extends JFrame implements ActionListener {
 
     private void initializeGUI() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(4, 3));
+        setLayout(new GridLayout(3, 4));
 
         addVideoButton = new JButton("Add Video");
         updateVideoButton = new JButton("Update Video");
@@ -34,6 +36,8 @@ public class AdminPanelManager extends JFrame implements ActionListener {
         updateTVSeriesButton = new JButton("Update TV Series");
         deleteTVSeriesButton = new JButton("Delete TV Series");
         searchVideoButton = new JButton("Search Video");
+        searchMovieButton = new JButton("Search Movie");
+        searchTVSeriesButton = new JButton("Search TV Series");
 
         addVideoButton.addActionListener(this);
         updateVideoButton.addActionListener(this);
@@ -45,18 +49,21 @@ public class AdminPanelManager extends JFrame implements ActionListener {
         updateTVSeriesButton.addActionListener(this);
         deleteTVSeriesButton.addActionListener(this);
         searchVideoButton.addActionListener(this);
+        searchMovieButton.addActionListener(this);
+        searchTVSeriesButton.addActionListener(this);
 
         add(addVideoButton);
         add(updateVideoButton);
         add(deleteVideoButton);
+        add(searchVideoButton);
         add(addMovieButton);
         add(updateMovieButton);
         add(deleteMovieButton);
+        add(searchMovieButton);
         add(addTVSeriesButton);
         add(updateTVSeriesButton);
         add(deleteTVSeriesButton);
-        add(searchVideoButton);
-
+        add(searchTVSeriesButton);
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
@@ -90,23 +97,29 @@ public class AdminPanelManager extends JFrame implements ActionListener {
             AddMovieDialog addMovieDialog = new AddMovieDialog(this, conn);
             addMovieDialog.setVisible(true);
         } else if (e.getSource() == updateMovieButton) {
-            UpdateMovieDialog updateMovieDialog = new UpdateMovieDialog(this, conn);
+            UpdateMovieDialog updateMovieDialog = new UpdateMovieDialog(this, conn, movieId);
             updateMovieDialog.setVisible(true);
         } else if (e.getSource() == deleteMovieButton) {
-            DeleteMovieDialog deleteMovieDialog = new DeleteMovieDialog(this, conn);
+            DeleteMovieDialog deleteMovieDialog = new DeleteMovieDialog(this, conn, movieId);
             deleteMovieDialog.setVisible(true);
         } else if (e.getSource() == addTVSeriesButton) {
             AddTVSeriesDialog addTVSeriesDialog = new AddTVSeriesDialog(this, conn);
             addTVSeriesDialog.setVisible(true);
         } else if (e.getSource() == updateTVSeriesButton) {
-            UpdateTVSeriesDialog updateTVSeriesDialog = new UpdateTVSeriesDialog(this, conn);
+            UpdateTVSeriesDialog updateTVSeriesDialog = new UpdateTVSeriesDialog(this, conn, tvSeriesId);
             updateTVSeriesDialog.setVisible(true);
         } else if (e.getSource() == deleteTVSeriesButton) {
-            DeleteTVSeriesDialog deleteTVSeriesDialog = new DeleteTVSeriesDialog(this, conn);
+            DeleteTVSeriesDialog deleteTVSeriesDialog = new DeleteTVSeriesDialog(this, conn, tvSeriesId);
             deleteTVSeriesDialog.setVisible(true);
         } else if (e.getSource() == searchVideoButton) {
             SearchVideoDialog searchVideoDialog = new SearchVideoDialog(this, conn);
             searchVideoDialog.setVisible(true);
+        } else if (e.getSource() == searchMovieButton) {
+            SearchMovieDialog searchMovieDialog = new SearchMovieDialog(this, conn);
+            searchMovieDialog.setVisible(true);
+        } else if (e.getSource() == searchTVSeriesButton) {
+            SearchTVSeriesDialog searchTVSeriesDialog = new SearchTVSeriesDialog(this, conn);
+            searchTVSeriesDialog.setVisible(true);
         }
     }
 

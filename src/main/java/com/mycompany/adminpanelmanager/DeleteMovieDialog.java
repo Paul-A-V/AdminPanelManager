@@ -22,10 +22,12 @@ import javax.swing.JPanel;
 public class DeleteMovieDialog extends JDialog {
     private Connection conn;
     private JComboBox<String> movieComboBox;
+        private int movieId;
 
-    public DeleteMovieDialog(JFrame parent, Connection conn) {
+    public DeleteMovieDialog(JFrame parent, Connection conn, int movieId) {
         super(parent, "Delete Movie", true);
         this.conn = conn;
+        this.movieId = movieId;
         initializeGUI();
         populateMovieComboBox();
     }
@@ -51,11 +53,15 @@ public class DeleteMovieDialog extends JDialog {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT id, title FROM movies");
 
-            while (rs.next()) {
-                int movieId = rs.getInt("id");
-                String title = rs.getString("title");
-                movieComboBox.addItem(movieId + ": " + title);
+        while (rs.next()) {
+            int currentMovieId = rs.getInt("id");
+            String title = rs.getString("title");
+            movieComboBox.addItem(currentMovieId + ": " + title);
+            // Pre-select the correct video in the combo box
+            if (currentMovieId == movieId) {
+                movieComboBox.setSelectedItem(currentMovieId + ": " + title);
             }
+        }
 
             rs.close();
         } catch (SQLException ex) {

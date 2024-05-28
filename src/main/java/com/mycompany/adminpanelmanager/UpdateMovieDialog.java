@@ -29,10 +29,12 @@ public class UpdateMovieDialog extends JDialog {
     private Connection conn;
     private JComboBox<String> movieComboBox;
     private JTextField titleField, descriptionField, releaseYearField, directorField, genreField, ratingField, thumbnailUrlField;
+    private int movieId;
 
-    public UpdateMovieDialog(JFrame parent, Connection conn) {
+    public UpdateMovieDialog(JFrame parent, Connection conn, int movieId) {
         super(parent, "Update Movie", true);
         this.conn = conn;
+        this.movieId = movieId;
         initializeGUI();
         populateMovieComboBox();
     }
@@ -126,11 +128,14 @@ public class UpdateMovieDialog extends JDialog {
             ResultSet rs = stmt.executeQuery("SELECT id, title FROM movies");
 
             while (rs.next()) {
-                int movieId = rs.getInt("id");
-                String title = rs.getString("title");
-                movieComboBox.addItem(movieId + ": " + title);
+            int currentMovieId = rs.getInt("id");
+            String title = rs.getString("title");
+            movieComboBox.addItem(currentMovieId + ": " + title);
+            // Pre-select the correct video in the combo box
+            if (currentMovieId == movieId) {
+                movieComboBox.setSelectedItem(currentMovieId + ": " + title);
             }
-
+            }
             rs.close();
         } catch (SQLException ex) {
             ex.printStackTrace();

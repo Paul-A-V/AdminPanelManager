@@ -27,10 +27,12 @@ class UpdateTVSeriesDialog extends JDialog {
     private Connection conn;
     private JComboBox<String> tvSeriesComboBox;
     private JTextField titleField, descriptionField, creatorField, genreField, thumbnailUrlField;
+    private int tvSeriesId;
 
-    public UpdateTVSeriesDialog(JFrame parent, Connection conn) {
+    public UpdateTVSeriesDialog(JFrame parent, Connection conn, int tvSeriesId) {
         super(parent, "Update TV Series", true);
         this.conn = conn;
+        this.tvSeriesId = tvSeriesId;
         initializeGUI();
         populateTVSeriesComboBox();
     }
@@ -107,12 +109,15 @@ class UpdateTVSeriesDialog extends JDialog {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT id, title FROM tv_series");
 
-            while (rs.next()) {
-                int tvSeriesId = rs.getInt("id");
-                String title = rs.getString("title");
-                tvSeriesComboBox.addItem(tvSeriesId + ": " + title);
+        while (rs.next()) {
+            int currentTVSeriesId = rs.getInt("id");
+            String title = rs.getString("title");
+            tvSeriesComboBox.addItem(currentTVSeriesId + ": " + title);
+            // Pre-select the correct video in the combo box
+            if (currentTVSeriesId == tvSeriesId) {
+                tvSeriesComboBox.setSelectedItem(currentTVSeriesId + ": " + title);
             }
-
+        }
             rs.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
